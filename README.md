@@ -1,5 +1,7 @@
 # nfc-emu
 
+![image](https://github.com/solosky/nfc-emu/raw/master/assets/nfc-emu-revA.png)
+
 这是一个可以模拟NTAG2xx和Mifare的模拟器。
 可以用来模拟Amiibo和门禁卡。
 
@@ -63,6 +65,7 @@
 需要的硬件：USB ISP
 * assets/optiboot_flash_atmega328p_UART0_115200_13560000L_B1.hex 刷入MCU中。
 * 修改熔丝位：低位值：0xCE, 高位值：0xDE，扩展位：0xFF
+![image](https://github.com/solosky/nfc-emu/raw/master/assets/fuse.png)
 
 
 ## 支持的卡
