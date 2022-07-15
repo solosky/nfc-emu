@@ -585,7 +585,7 @@ void checkForNfcReader() {
     if (storage_dirty && emu_event_callback) {
       setupNfcEmulator(sto, stoSize);  // reset UID
       emu_event_callback(EMU_EVENT_STORGE_PERSIST);
-	  storage_dirty = false;
+      storage_dirty = false;
     }
   }
   ACSR |= (1 << ACI);  // Clear comparator interrupt flag

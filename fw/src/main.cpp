@@ -39,6 +39,9 @@ ISR(WDT_vect) {
 }
 
 int main() {
+
+  sei();
+
   Serial.begin(115200);
   Serial.print("NFC EMU v1.0");
 
@@ -58,8 +61,5 @@ int main() {
   while (1) {
     nfc_tick();
     button_tick();
-    if (serialEventRun) {
-      serialEventRun();
-    }
   }
 }

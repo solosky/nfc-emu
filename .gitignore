@@ -1,0 +1,6 @@
+fw/.pio
+fw/.vscode/.browse.c_cpp.db*
+fw/.vscode/c_cpp_properties.json
+fw/.vscode/launch.json
+fw/.vscode/ipch
+hw/RevA/nfcemulator/nfcemu-backups

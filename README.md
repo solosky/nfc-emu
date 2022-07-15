@@ -77,3 +77,42 @@
 
 目前使用中耗电量为22mA，CR2032勉强能使用，还需要进一步优化电路减少功耗。
 因为设计了断电电路，不使用基本不耗电，使用时间取决于使用次数。
+
+## 写入TAG
+
+如果手机支持NFC，可以下载如下软件写入Amiibo:
+iOS: AppleStore搜索AmiiBoss写入。
+Andriod: https://github.com/HiddenRamblings/TagMo/releases 下载最新版本的TAGMO安装。
+
+如果以上都没有，可以购买PN532模块，然后安装Linux虚拟机，将PN532 USB设备接入虚拟机后，执行如下命令写入标签。
+
+安装libnfc 
+```
+sudo apt update
+sudo apt install libnfc-dev
+```
+
+Amiibo写入
+```
+nfc-mfultralight w "SSB Zelda.bin" --full
+NFC device: pn532 opened
+1 ISO14443A passive target(s) found:
+	040402cb5d6480
+Using MIFARE Ultralight card with UID: 040402cb5d6480
+WARNING: Tag is EV1 or NTAG - PASSWORD may be required
+NTAG Type: NTAG215 (504 user bytes)
+Checking if UL badge is DirectWrite...
+ Original Block 0 (Pages 0-2): 0404028acb5d648072480000
+ Original UID: 040402cb5d6480
+ Attempt to write Block 0 (pages 0-2) ...
+  Writing Page 0: 04 04 02 8a
+  Writing Page 1: cb 5d 64 80
+  Writing Page 2: 72 48 00 00
+ Block 0 written successfully
+Card is DirectWrite
+Writing 135 pages |.......................................................................................................................................|
+Done, 135 of 135 pages written (0 pages skipped, 0 pages failed).
+
+```
+
+默认固件第一个标签已经自带了一个Amiibo标签，可以用Switch打开荒野之息测试。
