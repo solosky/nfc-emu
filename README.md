@@ -81,18 +81,22 @@
 ## 写入TAG
 
 如果手机支持NFC，可以下载如下软件写入Amiibo:
+
 iOS: AppleStore搜索AmiiBoss写入。
+
 Andriod: https://github.com/HiddenRamblings/TagMo/releases 下载最新版本的TAGMO安装。
+
 
 如果以上都没有，可以购买PN532模块，然后安装Linux虚拟机，将PN532 USB设备接入虚拟机后，执行如下命令写入标签。
 
-安装libnfc 
+### 安装libnfc 
+
 ```
 sudo apt update
 sudo apt install libnfc-dev
 ```
 
-Amiibo写入
+### Amiibo写入
 ```
 nfc-mfultralight w "SSB Zelda.bin" --full
 NFC device: pn532 opened
