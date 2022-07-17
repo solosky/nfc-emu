@@ -18,7 +18,10 @@ void power_hold() {
   PORTB |= _BV(PORTB2);
 }
 
-void power_off() { PORTB &= ~_BV(PORTB2); }
+void power_off() {
+  PORTB &= ~_BV(PORTB2);
+  DDRB &= ~_BV(DDB2);
+}
 
 void power_disable_unused() { PRR = _BV(PRTWI) | _BV(PRSPI); }
 
@@ -33,21 +36,22 @@ void wdt_init() {
 }
 
 ISR(WDT_vect) {
-  wdt_reset();
+  // wdt_reset();
   nfc_save();
   power_off();
 }
 
 int main() {
-
   sei();
 
   Serial.begin(115200);
   Serial.print("NFC EMU v1.0");
+  wdt_init();
+
+  _delay_ms(100);
 
   power_hold();
 
-  wdt_init();
   timer2_init();
   button_init();
   led_init();
