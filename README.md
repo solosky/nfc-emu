@@ -2,8 +2,9 @@
 
 ![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/nfc-emu-revA.jpg)
 
-这是一个可以模拟NTAG2xx和Mifare的模拟器。
+这是一个可以模拟NTAG215的模拟器。
 可以用来模拟Amiibo和门禁卡。
+硬件理论上支持Mifare的卡片，但目前固件不支持。
 
 ## 功能
 
@@ -120,3 +121,7 @@ Done, 135 of 135 pages written (0 pages skipped, 0 pages failed).
 ```
 
 默认固件第一个标签已经自带了一个Amiibo标签，可以用Switch打开荒野之息测试。
+
+# 欢迎加群讨论 
+
+QQ群：109761876
