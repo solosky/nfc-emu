@@ -1,6 +1,19 @@
 # nfc-emu
 
+
+<iframe src="//player.bilibili.com/player.html?aid=688118575&bvid=BV1D24y1Z7Rh&cid=835047325&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+## RevA
 ![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/nfc-emu-revA.jpg)
+
+## RevB
+![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/nfc-emu-revB.jpg)
+
+
+和RevA新增了CH343P串口芯片，可以直接通过USB下载固件。
+
+注意：RevB未能完整测试，使用慎重！！
+
 
 这是一个可以模拟NTAG215的模拟器。
 可以用来模拟Amiibo和门禁卡。
@@ -71,19 +84,23 @@
 
 ## 支持的卡
 
-硬件上支持14443-3A的低速卡，比如NTAG2, Mifare等常见卡。
-软件层面目前只支持模拟NTAG2。
+硬件上支持14443-3A的低速卡，比如NTAG215, Mifare等常见卡。
+软件层面目前只支持模拟NTAG215，Mifare卡暂时不支持。
 
 ## 功耗
 
 目前使用中耗电量为22mA，CR2032勉强能使用，还需要进一步优化电路减少功耗。
+
 因为设计了断电电路，不使用基本不耗电，使用时间取决于使用次数。
+
+注意：一定要使用南孚的传应CR2032电池，其他电池不一定能提供这么大的放电电流！
 
 ## 写入TAG
 
 如果手机支持NFC，可以下载如下软件写入Amiibo:
 
-iOS: AppleStore搜索AmiiBoss写入。
+iOS: AppleStore搜索Umiibo写入。
+Umiibo是收费软件，但只需要6元RMB，没有应用内购买，很良心的APP的，强烈推荐购买。
 
 Andriod: https://github.com/HiddenRamblings/TagMo/releases 下载最新版本的TAGMO安装。
 
@@ -121,6 +138,10 @@ Done, 135 of 135 pages written (0 pages skipped, 0 pages failed).
 ```
 
 默认固件第一个标签已经自带了一个Amiibo标签，可以用Switch打开荒野之息测试。
+
+# 感谢 
+
+此项目是移植 [Simple NFC](https://github.com/Nonannet/simple-nfc)，主要的模拟代码来源SimpleNFC，感谢 @Nonannet 提供的代码，非常棒的实现！
 
 # 欢迎加群讨论 
 
