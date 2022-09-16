@@ -1,20 +1,6 @@
 # nfc-emu
 
 
-<iframe src="//player.bilibili.com/player.html?aid=688118575&bvid=BV1D24y1Z7Rh&cid=835047325&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-
-## RevA
-![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/nfc-emu-revA.jpg)
-
-## RevB
-![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/nfc-emu-revB.jpg)
-
-
-和RevA新增了CH343P串口芯片，可以直接通过USB下载固件。
-
-注意：RevB未能完整测试，使用慎重！！
-
-
 这是一个可以模拟NTAG215的模拟器。
 可以用来模拟Amiibo和门禁卡。
 硬件理论上支持Mifare的卡片，但目前固件不支持。
@@ -24,6 +10,17 @@
 * 支持最多10张卡模拟
 * 支持模拟Amiibo
 * 4秒无响应自动断电
+
+## PCB 
+
+| RevA | RevB |
+| --- | --- |
+| ![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/nfc-emu-revA.jpg) | ![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/nfc-emu-revB.jpg) | 
+| 可用 | 和RevA相比新增了CH343P串口芯片，可以直接通过USB下载固件。注意：RevB未能完整测试，使用慎重！！|
+
+## 演示
+
+[![](https://bb-embed.herokuapp.com/embed?v=BV1D24y1Z7Rh)](https://player.bilibili.com/player.html?aid=688118575&bvid=BV1D24y1Z7Rh&cid=835047325&page=1)
 
 
 ## Arduino
