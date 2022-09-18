@@ -91,7 +91,7 @@ CLK MOSI MISO RESET GND
  
 ## 刷入固件
 
-## RevA 
+### RevA 
 
 需要额外一个带DTR信号的USB转串口的模块，从左到右按如下的顺序从右边的UART接口连接USB串口模块。
 
@@ -100,9 +100,11 @@ CLK MOSI MISO RESET GND
 注意：TXD连串口模块的RXD，RXD连串口模块的TXD。
 
 
-## RevB 
+### RevB 
 
 直接插上USB线，系统自动识别出串口设备。
+
+### 刷入步骤
 
 1. 下载vscode, 安装platformio插件，安装arduino框架
 2. 修改platformio.ini中的 upload_port，monitor_port的值为设备的串口号
