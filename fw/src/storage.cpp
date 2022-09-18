@@ -6,7 +6,7 @@
 #include <avr/pgmspace.h>
 
 #include "Flash.h"
-
+#include "timer2.h"
 
 #define EMPTY_TAG                                        \
   {                                                      \
@@ -554,18 +554,27 @@
     }                                                    \
   }
 
-PROGMEM __attribute__((aligned(SPM_PAGESIZE))) const tag_t tags[MAX_TAG_CNT] = {
-    EMPTY_TAG, EMPTY_TAG, EMPTY_TAG, EMPTY_TAG, EMPTY_TAG,
-    EMPTY_TAG,   EMPTY_TAG, EMPTY_TAG, EMPTY_TAG, EMPTY_TAG,
-};
+PROGMEM __attribute__((aligned(SPM_PAGESIZE)))
+const tag_t tags[MAX_TAG_CNT + 1] = {EMPTY_TAG, EMPTY_TAG, EMPTY_TAG, EMPTY_TAG,
+                                     EMPTY_TAG, EMPTY_TAG, EMPTY_TAG, EMPTY_TAG,
+                                     EMPTY_TAG, EMPTY_TAG, EMPTY_TAG};
 
 // RAM buffer needed by the Flash library. Use flash[] to access the buffer
 uint8_t ram_buffer[SPM_PAGESIZE];
 // Flash constructor
 Flash flash((uint8_t*)(tags), sizeof(tags), ram_buffer, sizeof(ram_buffer));
 
+static void storage_rand_uuid(uint8_t* uuid) {
+  randomSeed(millis2());
+  for (int i = 0; i < 6; i++) {
+    uuid[i] = (uint8_t)rand();
+  }
+}
+
 static void storage_init_tag(uint8_t index, tag_t* tag) {
-  uint8_t uuid[6] = {0x04, 0x4b, 0xcb, 0x5d, 0x64, 0x80};
+  uint8_t uuid[6];
+
+  storage_rand_uuid(uuid);
 
   tag->magic = TAG_MAGIC;
 
@@ -615,6 +624,12 @@ void storage_save_tag(uint8_t index, tag_t* tag) {
     memcpy(ram_buffer, ((uint8_t*)tag) + i * SPM_PAGESIZE, SPM_PAGESIZE);
     flash.write_page(page_begin + i);
   }
+}
+
+void storage_reset_tag(uint8_t index, tag_t* tag) {
+  memcpy_P(tag, &(tags[MAX_TAG_CNT]), sizeof(tag_t));
+  storage_init_tag(index, tag);
+  storage_save_tag(index, tag);
 }
 
 void storage_read_conf(conf_t* conf) {

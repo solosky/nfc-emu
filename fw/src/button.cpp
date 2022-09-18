@@ -51,11 +51,13 @@ void button_trigger(uint8_t i, bool pressed) {
       case BTN_STATE_ARMED:
         if (millis2() - buttons[i].pressed_time > BOUNCE_DELAY_MS) {
           buttons[i].state = BTN_STATE_PRESSED;
-          button_event(i, BTN_EVENT_PRESSED);
         }
         break;
 
       case BTN_STATE_PRESSED: {
+        if (millis2() - buttons[i].pressed_time > LONG_PRESS_MS) {
+          button_event(i, BTN_EVENT_LONG_PRESSED);
+        }
         break;
       }
     }
@@ -72,6 +74,11 @@ void button_trigger(uint8_t i, bool pressed) {
         break;
 
       case BTN_STATE_PRESSED: {
+        unsigned long pressed_time = millis2() - buttons[i].pressed_time;
+        if (pressed_time > BOUNCE_DELAY_MS && pressed_time < LONG_PRESS_MS) {
+          button_event(i, BTN_EVENT_PRESSED);
+        }
+
         buttons[i].state = BTN_STATE_IDLE;
         buttons[i].pressed_time = 0;
         button_event(i, BTN_EVENT_RELEASED);

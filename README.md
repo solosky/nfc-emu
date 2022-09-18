@@ -78,6 +78,37 @@
 * 修改熔丝位：低位值：0xCE, 高位值：0xDE，扩展位：0xFF
 ![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/fuse.png)
 
+连接左边标记为ISP的接口到USB ISP烧写器上，接线顺序如下：
+
+CLK MOSI MISO RESET GND 
+
+注意需要把电池安装上，切下载的时候需要一直按住中键打开电源。
+
+
+刷入步骤：
+ 1. 先点击 编程熔丝 后面的框，弹出熔丝对话框，点击读出按钮读出当前值，然后依次输入 低位值：0xCE, 高位值：0xDE，扩展位：0xFF，点击写入执行写入操作
+ 2. 点击文件 -> 调入flash, 选择assets/optiboot_flash_atmega328p_UART0_115200_13560000L_B1.hex，点击自动按钮写入bootloader
+ 
+## 刷入固件
+
+## RevA 
+
+需要额外一个带DTR信号的USB转串口的模块，从左到右按如下的顺序从右边的UART接口连接USB串口模块。
+
++5V TXD RXD DTR GND 
+
+注意：TXD连串口模块的RXD，RXD连串口模块的TXD。
+
+
+## RevB 
+
+直接插上USB线，系统自动识别出串口设备。
+
+1. 下载vscode, 安装platformio插件，安装arduino框架
+2. 修改platformio.ini中的 upload_port，monitor_port的值为设备的串口号
+3. 点击编译和下载到设备中
+
+
 
 ## 支持的卡
 
@@ -134,8 +165,21 @@ Done, 135 of 135 pages written (0 pages skipped, 0 pages failed).
 
 ```
 
-默认固件第一个标签已经自带了一个Amiibo标签，可以用Switch打开荒野之息测试。
+默认固件所有标签都是空白的，需要用APP写入标签才能使用。
 
+## 操作说明
+
+* 关机状态下短按中键开机，电源指示灯亮起
+* 开机状态下短按上，下键切换标签
+* 开机状态下长按中键2秒以上重置标签，uid也会随机生成
+* 开机状态下靠近读卡器读取标签 
+
+可以使用重置标签操作结合APP来无限刷Amiibo!
+
+注意：写入和重置标签会产生Flash的写入操作，一般来说Flash的写入操作是有次数限制的，按ATMEGA328p的手册来说，每扇区至少有1000次写入寿命，所以每个标签的最多只能刷写500次左右，超过这个次数当前标签的数据可能永久无法写入。
+
+后续可以考虑实现写均衡来充分利用剩余未使用的空间来提高标签的写入次数。
+ 
 # 感谢 
 
 此项目是移植 [Simple NFC](https://github.com/Nonannet/simple-nfc)，主要的模拟代码来源SimpleNFC，感谢 @Nonannet 提供的代码，非常棒的实现！

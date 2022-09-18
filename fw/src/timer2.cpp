@@ -53,3 +53,13 @@ unsigned long millis2() {
 
   return m;
 }
+
+
+void delay_ms(unsigned int ms){
+  unsigned long now = millis2();
+  while( millis2() - now < ms){
+    //TODO overflow???
+    asm("nop");
+  }
+
+}

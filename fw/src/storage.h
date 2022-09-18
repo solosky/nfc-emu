@@ -30,6 +30,7 @@ typedef struct {
 void storage_init();
 void storage_read_tag(uint8_t index, tag_t* tag);
 void storage_save_tag(uint8_t index, tag_t* tag);
+void storage_reset_tag(uint8_t index, tag_t* tag);
 void storage_read_conf(conf_t* conf);
 void storage_save_conf(conf_t* conf);
 

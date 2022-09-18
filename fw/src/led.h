@@ -8,5 +8,6 @@
 
 void led_init();
 void led_tag_update(uint8_t i);
+void led_tag_blink(uint8_t i);
 
 #endif

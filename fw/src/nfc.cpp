@@ -18,6 +18,12 @@ static void nfc_tag_setup() {
   setupNfcEmulator(tag.data, tag.size);
 }
 
+static void nfc_tag_reset(){
+  storage_reset_tag(conf.tag_active, &tag);
+  setupNfcEmulator(tag.data, tag.size);
+  led_tag_blink(conf.tag_active);
+}
+
 static void nfc_btn_callback(btn_key_t btn, btn_event_t event) {
   if (event == BTN_EVENT_PRESSED) {
     if (btn == BTN_KEY_PREV) {
@@ -35,6 +41,10 @@ static void nfc_btn_callback(btn_key_t btn, btn_event_t event) {
       }
       nfc_tag_setup();
     }
+  }else if(event == BTN_EVENT_LONG_PRESSED){
+     if (btn == BTN_KEY_ENTER) {
+        nfc_tag_reset();
+     }
   }
 }
 
