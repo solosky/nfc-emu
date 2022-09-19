@@ -42,6 +42,7 @@ void button_event(uint8_t i, btn_event_t event) {
 void button_trigger(uint8_t i, bool pressed) {
   btn_state_t state = buttons[i].state;
   if (pressed) {
+    wdt_reset();
     switch (state) {
       case BTN_STATE_IDLE:
         buttons[i].state = BTN_STATE_ARMED;
@@ -75,7 +76,7 @@ void button_trigger(uint8_t i, bool pressed) {
 
       case BTN_STATE_PRESSED: {
         unsigned long pressed_time = millis2() - buttons[i].pressed_time;
-        if (pressed_time > BOUNCE_DELAY_MS && pressed_time < LONG_PRESS_MS) {
+        if (pressed_time > BOUNCE_DELAY_MS && pressed_time <= LONG_PRESS_MS) {
           button_event(i, BTN_EVENT_PRESSED);
         }
 

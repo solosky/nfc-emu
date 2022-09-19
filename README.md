@@ -23,7 +23,34 @@
 [![](https://bb-embed.herokuapp.com/embed?v=BV1D24y1Z7Rh)](https://player.bilibili.com/player.html?aid=688118575&bvid=BV1D24y1Z7Rh&cid=835047325&page=1)
 
 
-## Arduino
+## 固件编译和烧写
+
+本固件是基于Ardunio框架实现的，所以固件烧写方法很类似。
+主要分两步，第一步刷入bootloader, 第二步使用串口刷入固件。
+bootloader只需要刷写一次即可，之后的固件更新可以直接用串口刷入新固件。
+
+### 刷入Bootloader
+
+需要的软件：progisp 
+需要的硬件：USB ISP
+* assets/optiboot_flash_atmega328p_UART0_115200_13560000L_B1.hex 刷入MCU中。
+* 修改熔丝位：低位值：0xCE, 高位值：0xDE，扩展位：0xFF
+![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/fuse.png)
+
+连接左边标记为ISP的接口到USB ISP烧写器上，接线顺序如下：
+
+CLK MOSI MISO RESET GND 
+
+注意需要把电池安装上，在刷入bootloader过程中需要一直按住中键打开电源。
+
+
+刷入步骤：
+ 1. 先点击 编程熔丝 后面的框，弹出熔丝对话框，点击读出按钮读出当前值，然后依次输入 低位值：0xCE, 高位值：0xDE，扩展位：0xFF，点击写入执行写入操作
+ 2. 点击文件 -> 调入flash, 选择assets/optiboot_flash_atmega328p_UART0_115200_13560000L_B1.hex，点击自动按钮写入bootloader
+
+### 编译固件
+
+首先需要下载 vscode, 安装platformio插件，并安装arduino框架。
 
 因为用了非标准的13.56M的晶振，需要新建一个board。
 在 C:\Users\{{用户名}}\.platformio\platforms\atmelavr\boards下面新建一个文件 ATmega328PNfcEmu.json， 内容如下：
@@ -61,55 +88,32 @@
   "vendor": "Microchip"
 }
 ```
-修改platformio.ini里面的串口为实际使用的串口号。
+
+使用vscode打开项目的fw文件夹，platformio插件会自动启动识别为一个platformio的项目。
+点击编译按钮就可以完成编译。
 
 
-## 固件编译
+### 刷入固件
 
-需要下载VScode，然后安装platformio插件。
-下载安装好arduino framework。点击编译下载即可。
+刷入固件使用vscode的platformio插件完成。
 
+#### RevA 
 
-## 刷入Bootloader
-
-需要的软件：progisp 
-需要的硬件：USB ISP
-* assets/optiboot_flash_atmega328p_UART0_115200_13560000L_B1.hex 刷入MCU中。
-* 修改熔丝位：低位值：0xCE, 高位值：0xDE，扩展位：0xFF
-![image](https://raw.githubusercontent.com/solosky/nfc-emu/main/assets/fuse.png)
-
-连接左边标记为ISP的接口到USB ISP烧写器上，接线顺序如下：
-
-CLK MOSI MISO RESET GND 
-
-注意需要把电池安装上，切下载的时候需要一直按住中键打开电源。
-
-
-刷入步骤：
- 1. 先点击 编程熔丝 后面的框，弹出熔丝对话框，点击读出按钮读出当前值，然后依次输入 低位值：0xCE, 高位值：0xDE，扩展位：0xFF，点击写入执行写入操作
- 2. 点击文件 -> 调入flash, 选择assets/optiboot_flash_atmega328p_UART0_115200_13560000L_B1.hex，点击自动按钮写入bootloader
- 
-## 刷入固件
-
-### RevA 
-
-需要额外一个带DTR信号的USB转串口的模块，从左到右按如下的顺序从右边的UART接口连接USB串口模块。
+需要额外一个带DTR信号的USB转串口的模块，连接右边的UART接口按如下顺序连接USB串口模块。
 
 +5V TXD RXD DTR GND 
 
 注意：TXD连串口模块的RXD，RXD连串口模块的TXD。
 
 
-### RevB 
+#### RevB 
 
-直接插上USB线，系统自动识别出串口设备。
+自带了的USB转串口模块，直接插上USB线，系统自动识别出串口设备。
 
-### 刷入步骤
+#### 刷入步骤
 
-1. 下载vscode, 安装platformio插件，安装arduino框架
-2. 修改platformio.ini中的 upload_port，monitor_port的值为设备的串口号
-3. 点击编译和下载到设备中
-
+刷入之前，修改platformio.ini中的 upload_port，monitor_port的值为设备的串口号。
+点击上传按钮就可以下载固件到设备中。
 
 
 ## 支持的卡
@@ -126,6 +130,10 @@ CLK MOSI MISO RESET GND
 注意：一定要使用南孚的传应CR2032电池，其他电池不一定能提供这么大的放电电流！
 
 ## 写入TAG
+
+可以用手机APP写入，也可以用PN532等NFC读写器写入。
+
+### 使用手机APP写入
 
 如果手机支持NFC，可以下载如下软件写入Amiibo:
 
@@ -173,7 +181,7 @@ Done, 135 of 135 pages written (0 pages skipped, 0 pages failed).
 
 * 关机状态下短按中键开机，电源指示灯亮起
 * 开机状态下短按上，下键切换标签
-* 开机状态下长按中键2秒以上重置标签，uid也会随机生成
+* 开机状态下长按中键2秒以上重置标签，uid也会随机生成，标签指示灯会短闪两次
 * 开机状态下靠近读卡器读取标签 
 
 可以使用重置标签操作结合APP来无限刷Amiibo!
